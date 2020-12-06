@@ -1,0 +1,43 @@
+From 51f70a4cfd29d96a70e2131047865b8cdbb05722 Mon Sep 17 00:00:00 2001
+From: Armin Rostami <arostami@sandiego.edu>
+Date: Sat, 5 Dec 2020 16:59:15 -0800
+Subject: [PATCH] fixed some errors
+
+---
+ src/DataManipulator.ts | 4 ++--
+ src/Graph.tsx          | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/src/DataManipulator.ts b/src/DataManipulator.ts
+index 159256d..d482134 100644
+--- a/src/DataManipulator.ts
++++ b/src/DataManipulator.ts
+@@ -16,8 +16,8 @@ export class DataManipulator {
+     const priceABC = (serverResponds[0].top_ask.price + serverResponds[0].top_bid.price) / 2;
+     const priceDEF = (serverResponds[1].top_ask.price + serverResponds[1].top_bid.price) / 2;
+     const ratio = priceABC / priceDEF;
+-    const upperBound = 1 + 0.5 ;
+-    const lowerBound = 1 - 0.5 ;
++    const upperBound = 1 + 0.1 ;
++    const lowerBound = 1 - 0.1 ;
+     return {
+       price_abc: priceABC,
+       price_def: priceDEF,
+diff --git a/src/Graph.tsx b/src/Graph.tsx
+index ab2bb64..1cae951 100644
+--- a/src/Graph.tsx
++++ b/src/Graph.tsx
+@@ -39,9 +39,8 @@ class Graph extends Component<IProps, {}> {
+       // Load the `table` in the `<perspective-viewer>` DOM reference.
+       elem.load(this.table);
+       elem.setAttribute('view', 'y_line');
+-      elem.setAttribute('column-pivots', '["stock"]');
+       elem.setAttribute('row-pivots', '["timestamp"]');
+-      elem.setAttribute('columns', '["top_ask_price"]');
++      elem.setAttribute('columns', '["ratio", "lower_bound", "uper_bound", "trigger_alert"]');
+       elem.setAttribute('aggregates', JSON.stringify({
+         price_abc: 'avg',
+         price_def: 'avg',
+-- 
+2.20.1 (Apple Git-117)
+
